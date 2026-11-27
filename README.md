@@ -49,7 +49,7 @@ Developed by [Mahir Patel](https://github.com/Mahir1684). Created with assistanc
 ---
 
 ## Architecture
-
+```text
 +-------------------------------------------------------------+
 |                   Windows 10/11 Host PC                     |
 |                                                             |
@@ -108,6 +108,7 @@ PCResourceMonitor/
 ├── requirements.txt          # Python dependencies
 ├── LICENSE                   # MIT License
 └── README.md
+
 ---
 
 ## Getting Started
