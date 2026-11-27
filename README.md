@@ -1,18 +1,18 @@
 # PCResourceMonitor
 
-A high-performance, lightweight Windows 11 hardware telemetry server and dedicated native iOS dashboard engineered specifically for legacy devices such as the **iPad mini 1** (iOS 9.3.5 / 32-bit Apple A5).
+A high-performance, lightweight Windows 10/11 hardware telemetry server and dedicated native iOS dashboard engineered specifically for legacy devices such as the **iPad mini 1** (iOS 9.3.5 / 32-bit Apple A5).
 
 Turn an unused vintage iPad into a sleek, dedicated, low-latency PC telemetry display sitting on your desk.
 
-Developed by [Mahir Patel](https://github.com/Mahir1684).
+Developed by [Mahir Patel](https://github.com/Mahir1684). Created with assistance from Gemini, Antigravity, and ChatGPT.
 
 ---
 
 ## Features
 
 - **Real-Time Hardware Telemetry:**
-  - **CPU:** Total & per-core utilization, clock frequency, thermal monitoring (via LibreHardwareMonitor / WMI fallback).
-  - **GPU:** Dedicated NVIDIA NVML metrics (engine clock, memory clock, core load, VRAM, temperature) with AMD/Intel fallback.
+  - **CPU:** Auto-detects **Intel** and **AMD** processors with total & per-core utilization, clock frequency, and thermal monitoring (via LibreHardwareMonitor / WMI fallback).
+  - **GPU:** Auto-detects **NVIDIA**, **AMD**, and **Intel** GPUs with NVIDIA NVML metrics (engine clock, memory clock, core load, VRAM, temperature) and DXGI / sensor bridge fallback, returning `N/A` for metrics unavailable on a given GPU or driver.
   - **In-Game FPS:** Silent PresentMon ETW integration measuring live in-game frames per second and frame-times for active 3D applications.
   - **Memory:** Physical RAM total, used, available, and percentage.
   - **Storage:** Dynamic partition detection with support for NVMe/SATA SSDs, HDDs, and hotplugged USB drives.
@@ -30,14 +30,32 @@ Developed by [Mahir Patel](https://github.com/Mahir1684).
 
 ---
 
+## System & Hardware Compatibility
+
+### Operating Systems
+
+| Platform | Status | Notes |
+|---|---|---|
+| **Windows 10 / Windows 11 (64-bit)** | **Supported** | Primary target; full telemetry, PresentMon ETW FPS tracking, and PowerShell/watchdog scripts are tested here. |
+| **Windows 7 / 8 / 8.1** | **Not Supported** | Untested; modern Python builds, PresentMon ETW tracing, and DXGI features require Windows 10 or newer. |
+| **Linux / macOS** | **Not Supported (Backend)** | Core collectors (`DXGI`, `PresentMon.exe`, LibreHardwareMonitor) and PowerShell scripts are Windows-specific. (WSL2 / Linux is only used if rebuilding the `.ipa` via Theos.) |
+
+### Hardware & Sensors
+
+- **Processors (CPU):** Supports both **Intel** and **AMD** CPUs and adapts dynamically to different core counts.
+- **Graphics Cards (GPU):** Supports **NVIDIA**, **AMD**, and **Intel** GPUs via vendor/DXGI and optional sensor bridge providers; metrics not exposed by a specific GPU or driver fall back cleanly to `N/A`.
+- **iOS Client:** Built for 32-bit/ARMv7 iOS devices (such as iOS 9.3.5 on iPad mini 1) via sideloading and local port forwarding, with dynamic layout handling for multi-volume storage.
+
+---
+
 ## Architecture
 
-```
 +-------------------------------------------------------------+
-|                     Windows 11 Host PC                      |
+|                   Windows 10/11 Host PC                     |
 |                                                             |
 |  [Hardware Sensors]      [PresentMon ETW]                   |
-|   psutil / NVML / WMI      In-Game FPS                      |
+|   psutil / NVML / DXGI     In-Game FPS                      |
+|   / LHM / WMI                   |                           |
 |           |                     |                           |
 |           +----------> + <------+                           |
 |                        |                                    |
@@ -55,14 +73,12 @@ Developed by [Mahir Patel](https://github.com/Mahir1684).
 |            - PRMTelemetryClient (127.0.0.1:5002)            |
 |            - PRMDashboardViewController (1024x768)          |
 |            - 6-Card Zero-Allocation UI Engine               |
-+-------------------------------------------------------------+
-```
++-------------------------------------------------------------+```
 
 ---
 
 ## Directory Structure
 
-```
 PCResourceMonitor/
 ├── backend/                  # Python telemetry service
 │   ├── api/                  # Flask REST endpoints (/api/v1/telemetry)
@@ -92,8 +108,6 @@ PCResourceMonitor/
 ├── requirements.txt          # Python dependencies
 ├── LICENSE                   # MIT License
 └── README.md
-```
-
 ---
 
 ## Getting Started
