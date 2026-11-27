@@ -73,12 +73,13 @@ Developed by [Mahir Patel](https://github.com/Mahir1684). Created with assistanc
 |            - PRMTelemetryClient (127.0.0.1:5002)            |
 |            - PRMDashboardViewController (1024x768)          |
 |            - 6-Card Zero-Allocation UI Engine               |
-+-------------------------------------------------------------+```
++-------------------------------------------------------------+
+```
 
 ---
 
 ## Directory Structure
-
+```
 PCResourceMonitor/
 ├── backend/                  # Python telemetry service
 │   ├── api/                  # Flask REST endpoints (/api/v1/telemetry)
@@ -108,7 +109,7 @@ PCResourceMonitor/
 ├── requirements.txt          # Python dependencies
 ├── LICENSE                   # MIT License
 └── README.md
-
+```
 ---
 
 ## Getting Started
