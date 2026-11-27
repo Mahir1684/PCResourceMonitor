@@ -1,0 +1,39 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs & Runtime State
+logs/
+*.log
+
+# Operating System & IDE Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Theos & iOS Build Artifacts
+native/.theos/
+native/_/
+native/obj/
+native/packages/
+native/*.deb
+
+# Build distributions (keep prebuilt IPA tracked)
+dist/*
+!dist/PCResourceMonitor.ipa

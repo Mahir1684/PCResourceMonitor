@@ -1,0 +1,8 @@
+Package: com.pcmonitor.resource-monitor
+Name: PCResourceMonitor
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Lightweight Windows 11 hardware telemetry dashboard for legacy iOS devices.
+Maintainer: Mahir Patel <https://github.com/Mahir1684>
+Author: Mahir Patel
+Section: Utilities

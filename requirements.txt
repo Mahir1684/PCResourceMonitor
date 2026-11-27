@@ -1,0 +1,8 @@
+# PCResourceMonitor Python Dependencies
+Flask>=3.0.0
+waitress>=3.0.0
+psutil>=6.0.0
+nvidia-ml-py>=12.0.0
+
+# Testing
+pytest>=8.0.0

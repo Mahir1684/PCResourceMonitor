@@ -1,0 +1,816 @@
+/* ==========================================================================
+   PCResourceMonitor — iPad Mini 1 Dashboard Stylesheet
+   Compatible with iOS 9.3.5 Mobile Safari (WebKit iOS 9)
+   Pure CSS3 Flexbox Layout • Strict No-Grid • Degraded Glassmorphism
+   ========================================================================== */
+
+/* Universal Reset & Box Sizing */
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background-color: #070a13;
+  background-image: -webkit-radial-gradient(50% 0%, circle, #0e172a 0%, #070a13 100%);
+  background-image: radial-gradient(circle at 50% 0%, #0e172a 0%, #070a13 100%);
+  background-repeat: no-repeat;
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   Top HUD Navigation Header
+   ========================================================================== */
+.hud-header {
+  height: 48px;
+  width: 100%;
+  background: #090e1a;
+  background: rgba(9, 14, 26, 0.94);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 0 16px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hud-left {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.hud-brand {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #00d2ff;
+  box-shadow: 0 0 8px #00d2ff;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.hud-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.hud-host-info {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.hud-sep {
+  margin: 0 6px;
+  color: #334155;
+}
+
+.hud-center {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.hud-badge {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.status-connecting {
+  background: #2a220b;
+  color: #fbbf24;
+  border: 1px solid #78350f;
+}
+
+.status-live {
+  background: #062817;
+  color: #34d399;
+  border: 1px solid #059669;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.25);
+}
+
+.status-stale {
+  background: #2e1a05;
+  color: #f59e0b;
+  border: 1px solid #b45309;
+}
+
+.status-offline {
+  background: #330b0b;
+  color: #f87171;
+  border: 1px solid #dc2626;
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.3);
+}
+
+.hud-meta {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.hud-right {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.hud-uptime-block {
+  text-align: right;
+}
+
+.hud-uptime-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
+.hud-uptime-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   Dashboard Container & Row Layout (Flexbox)
+   ========================================================================== */
+.dashboard-container {
+  padding: 8px;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.dash-row {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.row-primary .dash-card {
+  -webkit-flex: 1 1 480px;
+  flex: 1 1 480px;
+}
+
+.row-secondary .dash-card {
+  -webkit-flex: 1 1 480px;
+  flex: 1 1 480px;
+}
+
+.row-tertiary .dash-card {
+  -webkit-flex: 1 1 310px;
+  flex: 1 1 310px;
+}
+
+/* ==========================================================================
+   Glassmorphism Card Architecture
+   ========================================================================== */
+.dash-card {
+  background: #0d1527;
+  background: rgba(13, 21, 39, 0.88);
+  border: 1px solid rgba(56, 189, 248, 0.16);
+  border-radius: 8px;
+  margin: 4px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  position: relative;
+}
+
+.card-header {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+  margin-bottom: 10px;
+}
+
+.card-title-group {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.card-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  text-transform: uppercase;
+}
+
+.tag-cyan   { background: rgba(0, 210, 255, 0.15); color: #00d2ff; border: 1px solid rgba(0, 210, 255, 0.35); }
+.tag-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.35); }
+.tag-green  { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+.tag-amber  { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.35); }
+.tag-orange { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.35); }
+.tag-teal   { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.35); }
+.tag-blue   { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.35); }
+
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.3px;
+}
+
+.card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #1e293b;
+  letter-spacing: 0.3px;
+}
+
+.tag-dedicated  { color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
+.tag-integrated { color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+.tag-usb        { color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
+
+/* ==========================================================================
+   Hero Metrics Presentation (Large Numbers & Progress Fill)
+   ========================================================================== */
+.hero-metric-row {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hero-metric {
+  min-width: 105px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: baseline;
+  align-items: baseline;
+}
+
+.hero-val {
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.val-cyan   { color: #00d2ff; text-shadow: 0 0 12px rgba(0, 210, 255, 0.3); }
+.val-purple { color: #c084fc; text-shadow: 0 0 12px rgba(192, 132, 252, 0.3); }
+.val-green  { color: #34d399; text-shadow: 0 0 12px rgba(52, 211, 153, 0.3); }
+
+.hero-unit {
+  font-size: 16px;
+  font-weight: 700;
+  color: #64748b;
+  margin-left: 2px;
+}
+
+.hero-context {
+  -webkit-flex: 1;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.hero-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.6px;
+  margin-bottom: 4px;
+}
+
+.hero-subtext {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   Progress Bar Tracks & Fills
+   ========================================================================== */
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  -webkit-transition: width 0.3s ease;
+  transition: width 0.3s ease;
+}
+
+.fill-cyan {
+  background: #007aff;
+  background: -webkit-linear-gradient(left, #007aff, #00d2ff);
+  background: linear-gradient(to right, #007aff, #00d2ff);
+}
+
+.fill-purple {
+  background: #7050e0;
+  background: -webkit-linear-gradient(left, #7050e0, #c084fc);
+  background: linear-gradient(to right, #7050e0, #c084fc);
+}
+
+.fill-green {
+  background: #059669;
+  background: -webkit-linear-gradient(left, #059669, #34d399);
+  background: linear-gradient(to right, #059669, #34d399);
+}
+
+.fill-orange {
+  background: #d97706;
+  background: -webkit-linear-gradient(left, #d97706, #f59e0b);
+  background: linear-gradient(to right, #d97706, #f59e0b);
+}
+
+.fill-alert {
+  background: #ef4444 !important;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+/* ==========================================================================
+   Metrics Strip (Secondary Attributes Grid)
+   ========================================================================== */
+.metrics-strip {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-top: 6px;
+}
+
+.strip-item {
+  -webkit-flex: 1;
+  flex: 1;
+  text-align: left;
+}
+
+.strip-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.strip-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.strip-val-wrap {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.sub-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 5px;
+  display: none;
+}
+
+.badge-na {
+  display: inline-block;
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+/* ==========================================================================
+   CPU 12-Core Activity Matrix Strip
+   ========================================================================== */
+.core-matrix-section {
+  margin-top: 8px;
+  background: rgba(9, 14, 26, 0.5);
+  border: 1px solid rgba(30, 41, 59, 0.6);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.core-matrix-header {
+  margin-bottom: 4px;
+}
+
+.core-matrix-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.4px;
+}
+
+.core-matrix-grid {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  height: 22px;
+  padding-top: 2px;
+}
+
+.core-bar-wrap {
+  -webkit-flex: 1;
+  flex: 1;
+  margin: 0 1px;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+  background: #090e1a;
+  border: 1px solid #1e293b;
+  border-radius: 2px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.core-bar-fill {
+  width: 100%;
+  height: 0%;
+  background: #00d2ff;
+  border-radius: 1px;
+  -webkit-transition: height 0.3s ease;
+  transition: height 0.3s ease;
+}
+
+/* ==========================================================================
+   Sub-resource Boxes (VRAM, I/O)
+   ========================================================================== */
+.sub-resource-box {
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-top: 8px;
+}
+
+.sub-resource-header {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.sub-resource-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.sub-resource-meta {
+  font-size: 11px;
+  font-weight: 700;
+  color: #c084fc;
+}
+
+/* AMD APU Notice Banner */
+.apu-notice-banner {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+.apu-status-pill {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #2a220b;
+  color: #fbbf24;
+  border: 1px solid #78350f;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.apu-notice-text {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+/* ==========================================================================
+   Storage Subsystem Volumes & I/O
+   ========================================================================== */
+.volumes-list {
+  margin-bottom: 8px;
+}
+
+.volume-row {
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 6px;
+}
+
+.volume-header {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.volume-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.volume-meta {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fb923c;
+}
+
+.volume-subtext {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 3px;
+  text-align: right;
+}
+
+.volume-placeholder {
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  padding: 12px 0;
+}
+
+.io-box {
+  margin-top: 6px;
+}
+
+.io-header {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.io-rates-row {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+.io-rate-item {
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.io-icon {
+  font-size: 10px;
+  font-weight: 700;
+  display: block;
+}
+
+.io-read  { color: #38bdf8; }
+.io-write { color: #f59e0b; }
+
+.io-val {
+  font-size: 14px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Network Subsystem Card
+   ========================================================================== */
+.net-speeds-grid {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.net-speed-card {
+  -webkit-flex: 1;
+  flex: 1;
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin: 0 2px;
+}
+
+.net-dir-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.net-down .net-dir-label { color: #38bdf8; }
+.net-up .net-dir-label   { color: #2dd4bf; }
+
+.net-speed-val {
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   System Diagnostics Card
+   ========================================================================== */
+.diagnostics-list {
+  background: rgba(9, 14, 26, 0.7);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+.diag-item {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+}
+
+.diag-item:last-child {
+  border-bottom: none;
+}
+
+.diag-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.4px;
+}
+
+.diag-val {
+  font-size: 11px;
+  font-weight: 600;
+  color: #f1f5f9;
+  text-align: right;
+}
+
+.diag-val-truncate {
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Connection Lost Toast Notification
+   ========================================================================== */
+.connection-toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  background: rgba(220, 38, 38, 0.95);
+  border: 1px solid #ef4444;
+  border-radius: 20px;
+  padding: 6px 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+}
+
+.toast-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #ffffff;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.toast-text {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+/* ==========================================================================
+   Responsive Reflow Fallback for Portrait Orientation
+   ========================================================================== */
+@media screen and (max-width: 768px), (orientation: portrait) {
+  .dashboard-container {
+    padding: 6px;
+  }
+  .row-primary .dash-card,
+  .row-secondary .dash-card,
+  .row-tertiary .dash-card {
+    -webkit-flex: 1 1 100%;
+    flex: 1 1 100%;
+    margin: 4px 0;
+  }
+  .hud-header {
+    height: auto;
+    padding: 8px 12px;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  .hud-left, .hud-center, .hud-right {
+    margin: 2px 0;
+  }
+}

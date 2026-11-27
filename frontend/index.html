@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>PC Resource Monitor &mdash; iPad Telemetry</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <!-- Top Navigation / Status HUD Header -->
+  <header class="hud-header">
+    <div class="hud-left">
+      <div class="hud-brand">
+        <span class="hud-dot"></span>
+        <span class="hud-title">PC TELEMETRY HUD</span>
+      </div>
+      <div class="hud-host-info">
+        <span id="hud-hostname">--</span>
+        <span class="hud-sep">&bull;</span>
+        <span id="hud-os">--</span>
+      </div>
+    </div>
+
+    <div class="hud-center">
+      <span id="hud-status-badge" class="hud-badge status-connecting">CONNECTING</span>
+      <span class="hud-meta">
+        <span id="hud-sequence">SEQ #0</span>
+        <span class="hud-sep">|</span>
+        <span id="hud-age">--s ago</span>
+      </span>
+    </div>
+
+    <div class="hud-right">
+      <div class="hud-uptime-block">
+        <span class="hud-uptime-label">UPTIME</span>
+        <span id="hud-uptime-val" class="hud-uptime-val">--:--:--</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Grid Layout -->
+  <main class="dashboard-container">
+
+    <!-- PRIMARY COMPUTE ROW: CPU Processor & Dedicated NVIDIA GPU -->
+    <section class="dash-row row-primary">
+      
+      <!-- CARD 1: CPU Processor Telemetry -->
+      <article class="dash-card card-cpu" id="card-cpu">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-cyan">CPU</span>
+            <h2 class="card-title" id="cpu-name">AMD Ryzen 5 9600X</h2>
+          </div>
+          <span class="card-badge" id="cpu-topology">-- Cores / -- Threads</span>
+        </div>
+
+        <div class="card-body">
+          <div class="hero-metric-row">
+            <div class="hero-metric">
+              <span class="hero-val val-cyan" id="cpu-usage-val">--</span>
+              <span class="hero-unit">%</span>
+            </div>
+            <div class="hero-context">
+              <div class="hero-label">TOTAL UTILIZATION</div>
+              <div class="progress-track">
+                <div class="progress-fill fill-cyan" id="cpu-usage-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary CPU Telemetry Strip -->
+          <div class="metrics-strip">
+            <div class="strip-item">
+              <span class="strip-label">FREQUENCY</span>
+              <span class="strip-val" id="cpu-freq-val">-- GHz</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">PACKAGE TEMP</span>
+              <div class="strip-val-wrap">
+                <span class="strip-val" id="cpu-temp-val">-- &deg;C</span>
+                <span class="sub-badge" id="cpu-temp-badge"></span>
+              </div>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">PACKAGE POWER</span>
+              <div class="strip-val-wrap">
+                <span class="strip-val" id="cpu-power-val">-- W</span>
+                <span class="sub-badge" id="cpu-power-badge"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 12-Core Activity Matrix Strip -->
+          <div class="core-matrix-section">
+            <div class="core-matrix-header">
+              <span class="core-matrix-label">LOGICAL CORES UTILIZATION</span>
+            </div>
+            <div class="core-matrix-grid" id="cpu-cores-matrix">
+              <!-- Dynamically populated 12 core bars -->
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2: Dedicated NVIDIA GeForce RTX 5060 Ti -->
+      <article class="dash-card card-gpu-nvidia" id="card-gpu-nvidia">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-purple">GPU 1</span>
+            <h2 class="card-title" id="gpu-nvidia-name">NVIDIA GeForce RTX 5060 Ti</h2>
+          </div>
+          <span class="card-badge tag-dedicated">DEDICATED (NVML)</span>
+        </div>
+
+        <div class="card-body">
+          <div class="hero-metric-row">
+            <div class="hero-metric">
+              <span class="hero-val val-purple" id="gpu-nvidia-usage-val">--</span>
+              <span class="hero-unit">%</span>
+            </div>
+            <div class="hero-context">
+              <div class="hero-label">CORE LOAD</div>
+              <div class="progress-track">
+                <div class="progress-fill fill-purple" id="gpu-nvidia-usage-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Secondary GPU Metrics Strip -->
+          <div class="metrics-strip">
+            <div class="strip-item">
+              <span class="strip-label">GPU TEMP</span>
+              <div class="strip-val-wrap">
+                <span class="strip-val" id="gpu-nvidia-temp-val">-- &deg;C</span>
+                <span class="sub-badge" id="gpu-nvidia-temp-badge"></span>
+              </div>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">POWER DRAW</span>
+              <div class="strip-val-wrap">
+                <span class="strip-val" id="gpu-nvidia-power-val">-- W</span>
+                <span class="sub-badge" id="gpu-nvidia-power-badge"></span>
+              </div>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">GRAPHICS CLOCK</span>
+              <span class="strip-val" id="gpu-nvidia-clock-val">-- MHz</span>
+            </div>
+          </div>
+
+          <!-- Dedicated VRAM Section -->
+          <div class="sub-resource-box">
+            <div class="sub-resource-header">
+              <span class="sub-resource-label">DEDICATED VRAM (GDDR6)</span>
+              <span class="sub-resource-meta" id="gpu-nvidia-vram-text">-- / -- GB (--%)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill fill-purple" id="gpu-nvidia-vram-bar" style="width: 0%;"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- SECONDARY COMPUTE & MEMORY ROW: System RAM & Integrated AMD APU -->
+    <section class="dash-row row-secondary">
+
+      <!-- CARD 3: System Physical Memory (RAM) -->
+      <article class="dash-card card-ram" id="card-ram">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-green">RAM</span>
+            <h2 class="card-title">System Physical Memory</h2>
+          </div>
+          <span class="card-badge" id="ram-meta-badge">16 GB DDR5</span>
+        </div>
+
+        <div class="card-body">
+          <div class="hero-metric-row">
+            <div class="hero-metric">
+              <span class="hero-val val-green" id="ram-usage-val">--</span>
+              <span class="hero-unit">%</span>
+            </div>
+            <div class="hero-context">
+              <div class="hero-label">RAM USED / TOTAL</div>
+              <div class="progress-track">
+                <div class="progress-fill fill-green" id="ram-usage-bar" style="width: 0%;"></div>
+              </div>
+              <div class="hero-subtext" id="ram-usage-subtext">-- GB used of -- GB</div>
+            </div>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="strip-item">
+              <span class="strip-label">USED RAM</span>
+              <span class="strip-val" id="ram-used-val">-- GB</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">AVAILABLE RAM</span>
+              <span class="strip-val" id="ram-avail-val">-- GB</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">TOTAL PHYSICAL</span>
+              <span class="strip-val" id="ram-total-val">-- GB</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 4: Integrated AMD Radeon Graphics -->
+      <article class="dash-card card-gpu-amd" id="card-gpu-amd">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-amber">GPU 2</span>
+            <h2 class="card-title" id="gpu-amd-name">AMD Radeon(TM) Graphics</h2>
+          </div>
+          <span class="card-badge tag-integrated">INTEGRATED (DXGI)</span>
+        </div>
+
+        <div class="card-body">
+          <div class="apu-notice-banner">
+            <span class="apu-status-pill">SHARED APU DIODE / SENSORS N/A</span>
+            <p class="apu-notice-text">
+              Monolithic Ryzen SoC shares CPU package diode. Discrete thermal and core utilization sensors are not exposed by the DXGI driver.
+            </p>
+          </div>
+
+          <div class="metrics-strip">
+            <div class="strip-item">
+              <span class="strip-label">DEDICATED CAPACITY</span>
+              <span class="strip-val" id="gpu-amd-vram-dedicated">-- MB</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">SHARED SYSTEM BUDGET</span>
+              <span class="strip-val" id="gpu-amd-vram-shared">-- GB</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">DRIVER CLASSIFICATION</span>
+              <span class="strip-val" id="gpu-amd-type">Integrated APU</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- SUBSYSTEMS ROW: Storage Volumes, Network Throughput & Diagnostics -->
+    <section class="dash-row row-tertiary">
+
+      <!-- CARD 5: Storage Volumes & Disk I/O -->
+      <article class="dash-card card-storage" id="card-storage">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-orange">DISK</span>
+            <h2 class="card-title">Storage Subsystem</h2>
+          </div>
+          <span class="card-badge" id="storage-volume-count">-- Drives</span>
+        </div>
+
+        <div class="card-body">
+          <!-- Multi-volume List Container -->
+          <div class="volumes-list" id="storage-volumes-list">
+            <!-- Dynamically populated drive bars (e.g. C:\ and D:\) -->
+            <div class="volume-placeholder">Reading storage volumes...</div>
+          </div>
+
+          <!-- Real-time Disk I/O Rates -->
+          <div class="sub-resource-box io-box">
+            <div class="io-header">
+              <span class="sub-resource-label">DISK I/O ACTIVITY</span>
+              <span class="sub-badge" id="storage-io-status">IDLE</span>
+            </div>
+            <div class="io-rates-row">
+              <div class="io-rate-item">
+                <span class="io-icon io-read">&darr; READ</span>
+                <span class="io-val" id="storage-read-rate">0 B/s</span>
+              </div>
+              <div class="io-rate-item">
+                <span class="io-icon io-write">&uarr; WRITE</span>
+                <span class="io-val" id="storage-write-rate">0 B/s</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 6: Network Link & Throughput -->
+      <article class="dash-card card-network" id="card-network">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-teal">NET</span>
+            <h2 class="card-title">Network Activity</h2>
+          </div>
+          <span class="card-badge" id="net-interface-badge">ETHERNET</span>
+        </div>
+
+        <div class="card-body">
+          <!-- Real-Time Throughput Numbers -->
+          <div class="net-speeds-grid">
+            <div class="net-speed-card net-down">
+              <span class="net-dir-label">&darr; DOWNLOAD</span>
+              <div class="net-speed-val" id="net-down-rate">0.0 KB/s</div>
+            </div>
+            <div class="net-speed-card net-up">
+              <span class="net-dir-label">&uarr; UPLOAD</span>
+              <div class="net-speed-val" id="net-up-rate">0.0 KB/s</div>
+            </div>
+          </div>
+
+          <!-- Network Cumulative Counters -->
+          <div class="metrics-strip net-cumulative">
+            <div class="strip-item">
+              <span class="strip-label">PRIMARY ADAPTER</span>
+              <span class="strip-val" id="net-primary-adapter">--</span>
+            </div>
+            <div class="strip-item">
+              <span class="strip-label">STATUS</span>
+              <span class="strip-val" id="net-summary-status">--</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 7: Host Information & Telemetry Diagnostics -->
+      <article class="dash-card card-diagnostics" id="card-diagnostics">
+        <div class="card-header">
+          <div class="card-title-group">
+            <span class="card-tag tag-blue">SYSTEM</span>
+            <h2 class="card-title">Host Diagnostics</h2>
+          </div>
+          <span class="card-badge tag-usb">USB TETHER (5002)</span>
+        </div>
+
+        <div class="card-body">
+          <div class="diagnostics-list">
+            <div class="diag-item">
+              <span class="diag-label">HOST COMPUTER</span>
+              <span class="diag-val" id="diag-hostname">--</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">OPERATING SYSTEM</span>
+              <span class="diag-val" id="diag-os">--</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">PROCESSOR MODEL</span>
+              <span class="diag-val diag-val-truncate" id="diag-cpu-name">--</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">SYSTEM BOOT TIME</span>
+              <span class="diag-val" id="diag-boot-time">--</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">POLLING CADENCE</span>
+              <span class="diag-val">1.0s interval &bull; 2.5s timeout</span>
+            </div>
+            <div class="diag-item">
+              <span class="diag-label">TELEMETRY LINK</span>
+              <span class="diag-val val-cyan">Loopback Reverse Tunnel</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- Notification banner for persistent disconnects -->
+  <div id="connection-toast" class="connection-toast toast-hidden">
+    <span class="toast-indicator"></span>
+    <span id="toast-message" class="toast-text">Host connection lost. Reconnecting over USB tunnel...</span>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
